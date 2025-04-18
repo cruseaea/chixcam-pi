@@ -171,6 +171,7 @@ Video attachment contains the recording."""
 
 def main():
     global is_recording, motion_start_time, last_motion_time, last_email_time, recorded_filename
+    global min_movement_area, max_movement_area
     
     try:
         while True:
