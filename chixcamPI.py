@@ -19,7 +19,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('/var/log/security_cam.log'),
+        logging.FileHandler('/home/cruse/security_cam.log'),
         logging.StreamHandler()
     ]
 )
