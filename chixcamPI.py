@@ -65,8 +65,8 @@ fgbg = cv2.createBackgroundSubtractorMOG2(
 )
 
 # Motion detection settings
-min_movement_area = 500
-max_movement_area = 5000
+min_movement_area = 100
+max_movement_area = 1000
 motion_duration_threshold = 0.3
 email_cooldown = 20  # Minimum seconds between emails
 
