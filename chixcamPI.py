@@ -13,6 +13,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
 from picamera2 import Picamera2
+import os
+os.environ['QT_QPA_PLATFORM'] = 'offscreen'  # Disable GUI
 
 # Set up logging
 logging.basicConfig(
@@ -35,7 +37,7 @@ sender_email = os.getenv("SENDER_EMAIL")
 receiver_email = os.getenv("RECEIVER_EMAIL")
 password = os.getenv("EMAIL_PASSWORD")
 
-# Verify variables
+# Verify required variables
 required_vars = ["SENDER_EMAIL", "RECEIVER_EMAIL", "EMAIL_PASSWORD"]
 missing = [var for var in required_vars if not os.getenv(var)]
 if missing:
@@ -65,8 +67,8 @@ fgbg = cv2.createBackgroundSubtractorMOG2(
 )
 
 # Motion detection settings
-min_movement_area = 100
-max_movement_area = 1000
+min_movement_area = 500
+max_movement_area = 5000
 motion_duration_threshold = 0.3
 email_cooldown = 20  # Minimum seconds between emails
 
@@ -198,8 +200,9 @@ def main():
                 # Update motion time if detected
                 if motion_detected:
                     last_motion_time = current_time
-                    cv2.putText(frame, "MOTION DETECTED", (20, 50), 
-                              cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+                    # Status text (commented out for headless)
+                    # cv2.putText(frame, "MOTION DETECTED", (20, 50), 
+                    #             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
                 
                 # Stop conditions (no motion for threshold OR max duration reached)
                 no_motion_time = current_time - last_motion_time if last_motion_time else 0
@@ -229,15 +232,10 @@ def main():
                 else:
                     min_movement_area = max(min_movement_area - 1, 100)
 
-            # Display status (optional for headless)
-            status = "RECORDING" if is_recording else "MONITORING"
-            cv2.putText(frame, status, (frame_width - 200, 30), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-            
-            # For debugging (comment out for headless)
-            cv2.imshow("Security Camera", frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            # Display status (commented out for headless)
+            # status = "RECORDING" if is_recording else "MONITORING"
+            # cv2.putText(frame, status, (frame_width - 200, 30), 
+            #            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
 
     except KeyboardInterrupt:
         logging.info("Shutting down by user request")
@@ -247,7 +245,6 @@ def main():
         if is_recording:
             stop_recording()
         picam2.stop()
-        cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     logging.info("Starting security camera system")
