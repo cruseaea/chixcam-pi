@@ -8,6 +8,15 @@
 | `chixcamPC.py`     | PC test version (GUI)            | OpenCV, Webcam         |
 | `launch_camera.py` | GPIO button controller           | RPi.GPIO               |
 
+## Architecture Overview  
+**Design Principle**:  
+*"Keep hardware-specific code isolated (launch_camera.py) and business logic centralized (chixcamPI.py)."*  
+
+**Key Constraints**:  
+- Must work headless on Raspberry Pi OS  
+- Gmail attachment limit: 25MB  
+- Max camera resolution: 1280×720  
+
 ## Hardware Requirements
 
 | Component          | Specification                   | Connection            |
@@ -24,13 +33,16 @@
 | `EMAIL_COOLDOWN`   | `chixcamPI.py`  | 20 seconds           |
 | `RECORD_DURATION`  | `chixcamPI.py`  | 30 seconds           |
 
-## Critical Functions
+## 🔧 Critical Functions  
+| Function           | File             | Parameters           | Notes                  |  
+|--------------------|-----------------|----------------------|------------------------|  
+| `detect_motion()`  | `chixcamPI.py`  | `frame`, `min_area`  | Uses MOG2 background subtraction |  
+| `send_email()`     | `chixcamPI.py`  | `video_path`         | Auto-compresses >20MB files |  
 
-| Function           | File             | Parameters           |
-|--------------------|-----------------|----------------------|
-| `detect_motion()`  | `chixcamPI.py`  | frame, min_area      |
-| `send_email()`     | `chixcamPI.py`  | video_path           |
-| `start_recording()`| `chixcamPI.py`  | filename             |
+## Onboarding Checklist  
+1. **Hardware Setup**:  
+   - [ ] Connect camera to CSI port  
+   - [ ] Wire button to GPIO17  
 
 ## Development Quickstart
 
@@ -47,3 +59,5 @@
 | Camera not found   | Run `sudo raspi-config`          |
 | SMTP auth errors   | Verify Gmail App Password        |
 | False positives    | Increase `MIN_MOTION_AREA`       |
+
+
