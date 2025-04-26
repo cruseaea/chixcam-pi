@@ -19,8 +19,7 @@
 ---
 
 ## System Architecture
-```mermaid
-graph TD
+1. **graph TD**:
     A[GPIO Button] -->|Trigger| B(launch_camera.py)
     B --> C{chixcamPI.py}
     C --> D[Motion Detection]
@@ -31,4 +30,13 @@ graph TD
 
 ---
 ## System Architecture
+1. **Motion Engine** (chixcamPI.py):
+   Background subtraction with OpenCV MOG2
+   Adaptive sensitivity tuning
+2. **Notif System**
+   Gmail SMTP with TLS
+   Video compression pipeline
+3. **Hardware Abstraction**
+   Picamera2 interface
+   GPIO button debouncing
 
