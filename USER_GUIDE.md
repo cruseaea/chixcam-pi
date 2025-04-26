@@ -18,15 +18,14 @@ This system detects motion near your chicken coop, records video clips, and send
    git clone https://github.com/cruseaea/chixcam-pi.git
    cd chixcam-pi
 
---
+---
 
 ## Install Dependencies
 1. pip3 install opencv-python python-dotenv smtplib
 
---
+---
 
 ## Configure Email Credentials
-1. Edit .env with your Gmail credentials:
-   SENDER_EMAIL="your@gmail.com"
-   RECEIVER_EMAIL="recipient@email.com"
-   EMAIL_PASSWORD="your_app_password"
+1. Edit .env with your Gmail credentials: SENDER_EMAIL="your@gmail.com" RECEIVER_EMAIL="recipient@email.com" EMAIL_PASSWORD="your_app_password"
+
+---
